@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles that need to be applied globally */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Ensure Tailwind's preflight is properly applied */
+@layer base {
+  p:not(:last-child) {
+    margin-bottom: 0.875rem;
+  }
+  
+  ol,
+  ul {
+    margin-left: 1rem;
+  }
+  
+  ol {
+    list-style-type: disc;
+  }
+}
