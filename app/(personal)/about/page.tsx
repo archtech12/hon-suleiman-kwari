@@ -4,8 +4,13 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { getAboutContent } from '../../../services/api';
 
+interface AboutData {
+  title: string;
+  content: string;
+}
+
 export default function AboutPage() {
-  const [aboutData, setAboutData] = useState(null);
+  const [aboutData, setAboutData] = useState<AboutData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

@@ -17,6 +17,7 @@ const legislativeRoutes = require('./routes/legislative');
 const contactRoutes = require('./routes/contact');
 const mediaRoutes = require('./routes/media');
 const uploadRoutes = require('./routes/upload');
+const volunteerRoutes = require('./routes/volunteers');
 
 // Create Express app
 const app = express();
@@ -34,30 +35,23 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-// Connect to MongoDB with fallback
+// Connect to MongoDB
 const connectDB = async () => {
   try {
-    // Try to connect to MongoDB Atlas first
-    await mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log('Connected to MongoDB Atlas');
-  } catch (err) {
-    console.error('MongoDB Atlas connection error:', err.message);
-    console.log('Falling back to local MongoDB instance...');
+    // Use MongoDB Atlas for production, local for development
+    const mongoURI = process.env.NODE_ENV === 'production' 
+      ? process.env.MONGODB_URI
+      : process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/ghali-dashboard';
     
-    try {
-      // Fallback to local MongoDB
-      await mongoose.connect('mongodb://localhost:27017/ghali-dashboard', {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      });
-      console.log('Connected to local MongoDB');
-    } catch (localErr) {
-      console.error('Local MongoDB connection error:', localErr.message);
-      console.log('Starting server without database connection...');
-    }
+    await mongoose.connect(mongoURI, {
+      serverSelectionTimeoutMS: 10000,
+      socketTimeoutMS: 45000,
+    });
+    
+    console.log(`✅ Connected to MongoDB: ${process.env.NODE_ENV === 'production' ? 'Atlas' : 'Local/Atlas'}`);
+  } catch (err) {
+    console.error('❌ MongoDB connection error:', err.message);
+    console.log('⚠️ Starting server without database connection...');
   }
 };
 
@@ -73,6 +67,7 @@ app.use('/api/legislative', legislativeRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/media', mediaRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/volunteers', volunteerRoutes);
 
 // Serve static files from uploads directory
 app.use('/uploads', express.static('uploads'));

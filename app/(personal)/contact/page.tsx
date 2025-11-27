@@ -2,6 +2,18 @@
 
 import {useState, useEffect} from 'react'
 
+interface ContactInfo {
+  phone: string;
+  email: string;
+  officeAddress: string;
+  officeHours: string;
+  socialMedia: {
+    facebook: string;
+    twitter: string;
+    instagram: string;
+  };
+}
+
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: '',
@@ -13,7 +25,7 @@ export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitSuccess, setSubmitSuccess] = useState(false)
   const [submitError, setSubmitError] = useState('')
-  const [contactInfo, setContactInfo] = useState(null)
+  const [contactInfo, setContactInfo] = useState<ContactInfo | null>(null)
 
   useEffect(() => {
     // In a real application, this would fetch from the API
@@ -31,7 +43,7 @@ export default function ContactPage() {
     })
   }, [])
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {name, value} = e.target
     setFormData(prev => ({
       ...prev,
@@ -39,7 +51,7 @@ export default function ContactPage() {
     }))
   }
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
     setSubmitError('')

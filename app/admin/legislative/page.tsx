@@ -1,92 +1,102 @@
-'use client';
+'use client'
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import RichTextEditor from '../../../components/RichTextEditor';
+import {useState, useEffect} from 'react'
+import {useRouter} from 'next/navigation'
+import RichTextEditor from '../../../components/RichTextEditor'
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'
 
 export default function LegislativeEditor() {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [bills, setBills] = useState([{ name: '', description: '', status: 'Proposed' }]);
-  const [achievements, setAchievements] = useState([{ title: '', description: '', date: '' }]);
-  const [imageUrl, setImageUrl] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false);
-  const router = useRouter();
+  const [title, setTitle] = useState('')
+  const [content, setContent] = useState('')
+  const [bills, setBills] = useState([{name: '', description: '', status: 'Proposed'}])
+  const [achievements, setAchievements] = useState([{title: '', description: '', date: ''}])
+  const [imageUrl, setImageUrl] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState(false)
+  const router = useRouter()
 
   // Check authentication
   useEffect(() => {
-    const token = localStorage.getItem('adminToken');
+    const token = localStorage.getItem('adminToken')
     if (!token) {
-      router.push('/admin/login');
+      router.push('/admin/login')
     }
-  }, [router]);
+  }, [router])
 
   // Fetch existing legislative content
   useEffect(() => {
     const fetchLegislativeContent = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/legislative');
+        const response = await fetch(`${API_URL}/api/legislative`)
         if (response.ok) {
-          const data = await response.json();
-          setTitle(data.title || '');
-          setContent(data.content || '');
-          setBills(data.bills && data.bills.length > 0 ? data.bills : [{ name: '', description: '', status: 'Proposed' }]);
-          setAchievements(data.achievements && data.achievements.length > 0 ? data.achievements : [{ title: '', description: '', date: '' }]);
-          setImageUrl(data.imageUrl || '');
+          const data = await response.json()
+          setTitle(data.title || '')
+          setContent(data.content || '')
+          setBills(
+            data.bills && data.bills.length > 0
+              ? data.bills
+              : [{name: '', description: '', status: 'Proposed'}],
+          )
+          setAchievements(
+            data.achievements && data.achievements.length > 0
+              ? data.achievements
+              : [{title: '', description: '', date: ''}],
+          )
+          setImageUrl(data.imageUrl || '')
         }
       } catch (err) {
-        console.error('Failed to fetch legislative content:', err);
+        console.error('Failed to fetch legislative content:', err)
       }
-    };
+    }
 
-    fetchLegislativeContent();
-  }, []);
+    fetchLegislativeContent()
+  }, [])
 
   const handleBillChange = (index, field, value) => {
-    const updatedBills = [...bills];
-    updatedBills[index][field] = value;
-    setBills(updatedBills);
-  };
+    const updatedBills = [...bills]
+    updatedBills[index][field] = value
+    setBills(updatedBills)
+  }
 
   const addBill = () => {
-    setBills([...bills, { name: '', description: '', status: 'Proposed' }]);
-  };
+    setBills([...bills, {name: '', description: '', status: 'Proposed'}])
+  }
 
   const removeBill = (index) => {
     if (bills.length > 1) {
-      const updatedBills = bills.filter((_, i) => i !== index);
-      setBills(updatedBills);
+      const updatedBills = bills.filter((_, i) => i !== index)
+      setBills(updatedBills)
     }
-  };
+  }
 
   const handleAchievementChange = (index, field, value) => {
-    const updatedAchievements = [...achievements];
-    updatedAchievements[index][field] = value;
-    setAchievements(updatedAchievements);
-  };
+    const updatedAchievements = [...achievements]
+    updatedAchievements[index][field] = value
+    setAchievements(updatedAchievements)
+  }
 
   const addAchievement = () => {
-    setAchievements([...achievements, { title: '', description: '', date: '' }]);
-  };
+    setAchievements([...achievements, {title: '', description: '', date: ''}])
+  }
 
   const removeAchievement = (index) => {
     if (achievements.length > 1) {
-      const updatedAchievements = achievements.filter((_, i) => i !== index);
-      setAchievements(updatedAchievements);
+      const updatedAchievements = achievements.filter((_, i) => i !== index)
+      setAchievements(updatedAchievements)
     }
-  };
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-    setSuccess(false);
+    e.preventDefault()
+    setLoading(true)
+    setError('')
+    setSuccess(false)
 
     try {
-      const token = localStorage.getItem('adminToken');
-      const response = await fetch('http://localhost:5000/api/legislative', {
+      const token = localStorage.getItem('adminToken')
+      const response = await fetch(`${API_URL}/api/legislative`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -97,29 +107,29 @@ export default function LegislativeEditor() {
           content,
           bills,
           achievements,
-          imageUrl
+          imageUrl,
         }),
-      });
+      })
 
       if (response.ok) {
-        setSuccess(true);
-        setTimeout(() => setSuccess(false), 3000);
+        setSuccess(true)
+        setTimeout(() => setSuccess(false), 3000)
       } else {
-        const data = await response.json();
-        setError(data.message || 'Failed to update legislative content');
+        const data = await response.json()
+        setError(data.message || 'Failed to update legislative content')
       }
     } catch (err) {
-      setError('An error occurred. Please try again.');
+      setError('An error occurred. Please try again.')
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Legislative Work Editor</h1>
-        <button 
+        <button
           onClick={handleSubmit}
           disabled={loading}
           className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:opacity-50"
@@ -128,11 +138,7 @@ export default function LegislativeEditor() {
         </button>
       </div>
 
-      {error && (
-        <div className="bg-red-50 text-red-500 p-3 rounded">
-          {error}
-        </div>
-      )}
+      {error && <div className="bg-red-50 text-red-500 p-3 rounded">{error}</div>}
 
       {success && (
         <div className="bg-green-50 text-green-500 p-3 rounded">
@@ -145,9 +151,7 @@ export default function LegislativeEditor() {
 
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Page Title
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Page Title</label>
             <input
               type="text"
               value={title}
@@ -158,9 +162,7 @@ export default function LegislativeEditor() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Main Content
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Main Content</label>
             <RichTextEditor
               value={content}
               onChange={setContent}
@@ -186,10 +188,7 @@ export default function LegislativeEditor() {
       <div className="bg-white p-6 rounded-lg shadow">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold">Bills & Legislation</h2>
-          <button 
-            onClick={addBill}
-            className="text-green-600 hover:text-green-800"
-          >
+          <button onClick={addBill} className="text-green-600 hover:text-green-800">
             + Add Bill
           </button>
         </div>
@@ -199,9 +198,7 @@ export default function LegislativeEditor() {
             <div key={index} className="border border-gray-200 rounded-lg p-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Bill Name
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Bill Name</label>
                   <input
                     type="text"
                     value={bill.name}
@@ -212,9 +209,7 @@ export default function LegislativeEditor() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Status
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
                   <select
                     value={bill.status}
                     onChange={(e) => handleBillChange(index, 'status', e.target.value)}
@@ -259,10 +254,7 @@ export default function LegislativeEditor() {
       <div className="bg-white p-6 rounded-lg shadow">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold">Key Achievements</h2>
-          <button 
-            onClick={addAchievement}
-            className="text-green-600 hover:text-green-800"
-          >
+          <button onClick={addAchievement} className="text-green-600 hover:text-green-800">
             + Add Achievement
           </button>
         </div>
@@ -285,9 +277,7 @@ export default function LegislativeEditor() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Date
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Date</label>
                   <input
                     type="text"
                     value={achievement.date}
@@ -326,5 +316,5 @@ export default function LegislativeEditor() {
         </div>
       </div>
     </div>
-  );
+  )
 }

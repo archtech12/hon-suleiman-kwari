@@ -1,114 +1,116 @@
-'use client';
+'use client'
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import RichTextEditor from '../../../components/RichTextEditor';
+import {useState, useEffect} from 'react'
+import {useRouter} from 'next/navigation'
+import RichTextEditor from '../../../components/RichTextEditor'
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'
 
 export default function AboutEditor() {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
+  const [title, setTitle] = useState('')
+  const [content, setContent] = useState('')
+  const [imageUrl, setImageUrl] = useState('')
   const [quickFacts, setQuickFacts] = useState([
-    { icon: 'badge', label: 'Position', value: '' },
-    { icon: 'location_on', label: 'Constituency', value: '' },
-    { icon: 'calendar_today', label: 'Years of Service', value: '' },
-    { icon: 'groups', label: 'Party', value: '' },
-    { icon: 'cake', label: 'Born', value: '' },
-    { icon: 'school', label: 'Education', value: '' }
-  ]);
+    {icon: 'badge', label: 'Position', value: ''},
+    {icon: 'location_on', label: 'Constituency', value: ''},
+    {icon: 'calendar_today', label: 'Years of Service', value: ''},
+    {icon: 'groups', label: 'Party', value: ''},
+    {icon: 'cake', label: 'Born', value: ''},
+    {icon: 'school', label: 'Education', value: ''},
+  ])
   const [visionItems, setVisionItems] = useState([
-    { icon: 'school', title: 'Youth Empowerment', description: '' },
-    { icon: 'local_hospital', title: 'Community Health', description: '' },
-    { icon: 'home', title: 'Infrastructure', description: '' }
-  ]);
+    {icon: 'school', title: 'Youth Empowerment', description: ''},
+    {icon: 'local_hospital', title: 'Community Health', description: ''},
+    {icon: 'home', title: 'Infrastructure', description: ''},
+  ])
   const [coreValues, setCoreValues] = useState([
     'Integrity in all actions and decisions',
     'Transparency in governance and operations',
     'Accountability to constituents and stakeholders',
     'Equity in resource distribution and opportunity creation',
     'Sustainability in development initiatives',
-    'Community empowerment through participatory leadership'
-  ]);
-  
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false);
-  const router = useRouter();
+    'Community empowerment through participatory leadership',
+  ])
+
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState(false)
+  const router = useRouter()
 
   // Check authentication
   useEffect(() => {
-    const token = localStorage.getItem('adminToken');
+    const token = localStorage.getItem('adminToken')
     if (!token) {
-      router.push('/admin/login');
+      router.push('/admin/login')
     }
-  }, [router]);
+  }, [router])
 
   // Fetch existing about content
   useEffect(() => {
     const fetchAboutContent = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/about');
+        const response = await fetch(`${API_URL}/api/about`)
         if (response.ok) {
-          const data = await response.json();
-          setTitle(data.title || '');
-          setContent(data.content || '');
-          setImageUrl(data.imageUrl || '');
+          const data = await response.json()
+          setTitle(data.title || '')
+          setContent(data.content || '')
+          setImageUrl(data.imageUrl || '')
           if (data.quickFacts && data.quickFacts.length > 0) {
-            setQuickFacts(data.quickFacts);
+            setQuickFacts(data.quickFacts)
           }
           if (data.visionItems && data.visionItems.length > 0) {
-            setVisionItems(data.visionItems);
+            setVisionItems(data.visionItems)
           }
           if (data.coreValues && data.coreValues.length > 0) {
-            setCoreValues(data.coreValues);
+            setCoreValues(data.coreValues)
           }
         }
       } catch (err) {
-        console.error('Failed to fetch about content:', err);
+        console.error('Failed to fetch about content:', err)
       }
-    };
+    }
 
-    fetchAboutContent();
-  }, []);
+    fetchAboutContent()
+  }, [])
 
   const handleQuickFactChange = (index, field, value) => {
-    const updatedFacts = [...quickFacts];
-    updatedFacts[index][field] = value;
-    setQuickFacts(updatedFacts);
-  };
+    const updatedFacts = [...quickFacts]
+    updatedFacts[index][field] = value
+    setQuickFacts(updatedFacts)
+  }
 
   const handleVisionItemChange = (index, field, value) => {
-    const updatedItems = [...visionItems];
-    updatedItems[index][field] = value;
-    setVisionItems(updatedItems);
-  };
+    const updatedItems = [...visionItems]
+    updatedItems[index][field] = value
+    setVisionItems(updatedItems)
+  }
 
   const handleCoreValueChange = (index, value) => {
-    const updatedValues = [...coreValues];
-    updatedValues[index] = value;
-    setCoreValues(updatedValues);
-  };
+    const updatedValues = [...coreValues]
+    updatedValues[index] = value
+    setCoreValues(updatedValues)
+  }
 
   const addCoreValue = () => {
-    setCoreValues([...coreValues, '']);
-  };
+    setCoreValues([...coreValues, ''])
+  }
 
   const removeCoreValue = (index) => {
     if (coreValues.length > 1) {
-      const updatedValues = coreValues.filter((_, i) => i !== index);
-      setCoreValues(updatedValues);
+      const updatedValues = coreValues.filter((_, i) => i !== index)
+      setCoreValues(updatedValues)
     }
-  };
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-    setSuccess(false);
+    e.preventDefault()
+    setLoading(true)
+    setError('')
+    setSuccess(false)
 
     try {
-      const token = localStorage.getItem('adminToken');
-      const response = await fetch('http://localhost:5000/api/about', {
+      const token = localStorage.getItem('adminToken')
+      const response = await fetch(`${API_URL}/api/about`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -120,29 +122,29 @@ export default function AboutEditor() {
           imageUrl,
           quickFacts,
           visionItems,
-          coreValues
+          coreValues,
         }),
-      });
+      })
 
       if (response.ok) {
-        setSuccess(true);
-        setTimeout(() => setSuccess(false), 3000);
+        setSuccess(true)
+        setTimeout(() => setSuccess(false), 3000)
       } else {
-        const data = await response.json();
-        setError(data.message || 'Failed to update about content');
+        const data = await response.json()
+        setError(data.message || 'Failed to update about content')
       }
     } catch (err) {
-      setError('An error occurred. Please try again.');
+      setError('An error occurred. Please try again.')
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">About Page Editor</h1>
-        <button 
+        <button
           onClick={handleSubmit}
           disabled={loading}
           className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:opacity-50"
@@ -151,11 +153,7 @@ export default function AboutEditor() {
         </button>
       </div>
 
-      {error && (
-        <div className="bg-red-50 text-red-500 p-3 rounded">
-          {error}
-        </div>
-      )}
+      {error && <div className="bg-red-50 text-red-500 p-3 rounded">{error}</div>}
 
       {success && (
         <div className="bg-green-50 text-green-500 p-3 rounded">
@@ -168,9 +166,7 @@ export default function AboutEditor() {
 
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Page Title
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Page Title</label>
             <input
               type="text"
               value={title}
@@ -181,9 +177,7 @@ export default function AboutEditor() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Main Content
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Main Content</label>
             <RichTextEditor
               value={content}
               onChange={setContent}
@@ -213,9 +207,7 @@ export default function AboutEditor() {
           {quickFacts.map((fact, index) => (
             <div key={index} className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Icon
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Icon</label>
                 <input
                   type="text"
                   value={fact.icon}
@@ -225,9 +217,7 @@ export default function AboutEditor() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Label
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Label</label>
                 <input
                   type="text"
                   value={fact.label}
@@ -237,9 +227,7 @@ export default function AboutEditor() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Value
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Value</label>
                 <input
                   type="text"
                   value={fact.value}
@@ -260,9 +248,7 @@ export default function AboutEditor() {
           {visionItems.map((item, index) => (
             <div key={index} className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Icon
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Icon</label>
                 <input
                   type="text"
                   value={item.icon}
@@ -272,9 +258,7 @@ export default function AboutEditor() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Title
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
                 <input
                   type="text"
                   value={item.title}
@@ -284,9 +268,7 @@ export default function AboutEditor() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Description
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
                 <input
                   type="text"
                   value={item.description}
@@ -303,10 +285,7 @@ export default function AboutEditor() {
       <div className="bg-white p-6 rounded-lg shadow">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold">Core Values</h2>
-          <button 
-            onClick={addCoreValue}
-            className="text-green-600 hover:text-green-800"
-          >
+          <button onClick={addCoreValue} className="text-green-600 hover:text-green-800">
             + Add Value
           </button>
         </div>
@@ -334,5 +313,5 @@ export default function AboutEditor() {
         </div>
       </div>
     </div>
-  );
+  )
 }

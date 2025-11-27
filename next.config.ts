@@ -10,6 +10,9 @@ const config: NextConfig = {
       fullUrl: true,
     },
   },
+  turbopack: {
+    root: __dirname,
+  },
 }
 
 export default config

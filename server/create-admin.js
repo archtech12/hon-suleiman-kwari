@@ -26,15 +26,11 @@ const createAdminUser = async () => {
       await User.deleteOne({ email: 'admin@ghalipanda.gov.ng' });
     }
     
-    // Hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash('Admin123!', salt);
-    
-    // Create new admin user
+    // Create new admin user (password will be hashed by Mongoose pre-save hook)
     const adminUser = new User({
       name: 'Admin User',
       email: 'admin@ghalipanda.gov.ng',
-      password: hashedPassword,
+      password: 'Admin123!', // Plain text - will be hashed automatically
       role: 'admin'
     });
     
