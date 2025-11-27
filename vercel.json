@@ -4,11 +4,6 @@
   "outputDirectory": ".next",
   "framework": "nextjs",
   "regions": ["iad1"],
-  "env": {
-    "MONGODB_URI": "@mongodb_uri",
-    "JWT_SECRET": "@jwt_secret",
-    "NEXT_PUBLIC_API_URL": "@api_url"
-  },
   "headers": [
     {
       "source": "/(.*)",
