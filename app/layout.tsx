@@ -3,8 +3,59 @@ import {IBM_Plex_Mono, Inter, PT_Serif} from 'next/font/google'
 import {Metadata, Viewport} from 'next'
 
 export const metadata: Metadata = {
-  title: 'Hon. Dr. Ghali Campaign Dashboard',
-  description: 'Campaign management system for Hon. Dr. Ghali Mustapha Tijjani Phanda',
+  title: {
+    default: 'Hon. Dr. Ghali Mustapha Tijjani Phanda - Representative for Gaya/Ajingi/Albasu',
+    template: '%s | Hon. Dr. Ghali Panda',
+  },
+  description:
+    'Official website of Hon. Dr. Ghali Mustapha Tijjani Phanda - Member representing Gaya/Ajingi/Albasu Federal Constituency. Empowering communities through education, healthcare, and infrastructure development.',
+  keywords: [
+    'Ghali Panda',
+    'Gaya Ajingi Albasu',
+    'Federal Constituency',
+    'Nigeria Politics',
+    'Community Development',
+    'Legislative Work',
+  ],
+  authors: [{name: 'Hon. Dr. Ghali Mustapha Tijjani Phanda'}],
+  creator: 'Hon. Dr. Ghali Campaign Team',
+  publisher: 'Hon. Dr. Ghali Campaign',
+  openGraph: {
+    type: 'website',
+    locale: 'en_NG',
+    url: 'https://ghalipada.vercel.app',
+    siteName: 'Hon. Dr. Ghali Panda',
+    title: 'Hon. Dr. Ghali Mustapha Tijjani Phanda - Your Representative',
+    description:
+      'Empowering Gaya/Ajingi/Albasu communities through quality representation, development projects, and dedicated service. Together we build a better tomorrow.',
+    images: [
+      {
+        url: 'https://ghalipada.vercel.app/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Hon. Dr. Ghali Mustapha Tijjani Phanda',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Hon. Dr. Ghali Panda - Your Representative',
+    description:
+      'Empowering communities through education, healthcare, and infrastructure development.',
+    images: ['https://ghalipada.vercel.app/og-image.jpg'],
+    creator: '@GhaliPanda',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      'index': true,
+      'follow': true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 }
 
 export const viewport: Viewport = {

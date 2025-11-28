@@ -3,6 +3,7 @@
 import {Header} from '@/components/Header'
 import {GhaliTimeline, timelineData} from '@/components/GhaliTimeline'
 import Link from 'next/link'
+import Image from 'next/image'
 
 interface HomePageProps {
   data: any
@@ -55,12 +56,14 @@ export function HomePage({data}: HomePageProps) {
             </div>
             <div className="lg:w-1/2 flex justify-center mt-8 lg:mt-0">
               <div className="relative">
-                <div className="w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 sm:border-8 border-white shadow-2xl">
-                  {/* Dr. Ghali's portrait */}
-                  <img
+                <div className="w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 sm:border-8 border-white shadow-2xl relative">
+                  <Image
                     src="/ghaliphoto.jpg"
                     alt="Dr. Ghali Mustapha Tijjani Phanda"
-                    className="w-full h-full object-cover"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 640px) 224px, (max-width: 768px) 256px, 320px"
+                    priority
                   />
                 </div>
                 <div className="absolute -bottom-3 -right-3 sm:-bottom-4 sm:-right-4 bg-gold-500 text-green-900 font-bold py-2 px-3 sm:py-2 sm:px-4 rounded-lg shadow-lg transform rotate-3 text-xs sm:text-sm">
@@ -171,8 +174,14 @@ export function HomePage({data}: HomePageProps) {
         <div className="container mx-auto px-4 md:px-8">
           <div className="flex flex-col lg:flex-row items-center gap-10">
             <div className="lg:w-1/3">
-              <div className="rounded-xl overflow-hidden shadow-xl transform transition-transform duration-500 hover:scale-105">
-                <img src="/ghaliphoto.jpg" alt="Dr. Ghali" className="w-full h-80 object-cover" />
+              <div className="rounded-xl overflow-hidden shadow-xl transform transition-transform duration-500 hover:scale-105 relative h-80">
+                <Image
+                  src="/ghaliphoto.jpg"
+                  alt="Dr. Ghali"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 33vw"
+                />
               </div>
             </div>
             <div className="lg:w-2/3">

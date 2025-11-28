@@ -1,7 +1,9 @@
 'use client'
 
-import {useState, useRef, useEffect} from 'react'
+import {useState, useRef, useEffect, useCallback} from 'react'
 import html2canvas from 'html2canvas'
+import Cropper from 'react-easy-crop'
+import type {Area} from 'react-easy-crop'
 
 type Template = 'classic' | 'modern' | 'vibrant' | 'elegant' | 'bold' | 'neon' | 'royal'
 type Size = 'small' | 'medium' | 'large' | 'story' | 'banner' | 'poster'
@@ -28,6 +30,10 @@ export default function StickerGenerator() {
   const [stats, setStats] = useState<StickerStats>({totalGenerated: 0, lastGenerated: null})
   const [showBatchMode, setShowBatchMode] = useState(false)
   const [batchCount, setBatchCount] = useState(1)
+  const [crop, setCrop] = useState({x: 0, y: 0})
+  const [zoom, setZoom] = useState(1)
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null)
+  const [showCropper, setShowCropper] = useState(false)
   const stickerRef = useRef<HTMLDivElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -141,7 +147,7 @@ export default function StickerGenerator() {
         // Update stats
         const newStats = {
           totalGenerated: stats.totalGenerated + 1,
-          lastGenerated: new Date().toLocaleString()
+          lastGenerated: new Date().toLocaleString(),
         }
         setStats(newStats)
         localStorage.setItem('stickerStats', JSON.stringify(newStats))
@@ -172,7 +178,9 @@ export default function StickerGenerator() {
         }
 
         // Show success message
-        alert(`✅ Sticker #${newStats.totalGenerated} generated successfully!\n\nShare it with ${campaignHashtag} on social media! 🚀`)
+        alert(
+          `✅ Sticker #${newStats.totalGenerated} generated successfully!\n\nShare it with ${campaignHashtag} on social media! 🚀`,
+        )
       } catch (error) {
         console.error('Error generating sticker:', error)
         alert('❌ Error generating sticker. Please try again.')
@@ -188,9 +196,18 @@ export default function StickerGenerator() {
       const reader = new FileReader()
       reader.onload = (e) => {
         setSupporterPhoto(e.target?.result as string)
+        setShowCropper(true) // Show cropper when photo is uploaded
       }
       reader.readAsDataURL(file)
     }
+  }
+
+  const onCropComplete = useCallback((croppedArea: Area, croppedAreaPixels: Area) => {
+    setCroppedAreaPixels(croppedAreaPixels)
+  }, [])
+
+  const handleCropDone = () => {
+    setShowCropper(false)
   }
 
   const triggerFileInput = () => {
@@ -336,12 +353,21 @@ export default function StickerGenerator() {
                     {supporterPhoto ? 'Change Photo' : 'Upload Photo'}
                   </button>
                   {supporterPhoto && (
-                    <div className="mt-3 flex justify-center">
-                      <img
-                        src={supporterPhoto}
-                        alt="Preview"
-                        className="w-20 h-20 rounded-full object-cover border-4 border-green-500 shadow-lg"
-                      />
+                    <div className="mt-3">
+                      <div className="flex justify-center mb-2">
+                        <img
+                          src={supporterPhoto}
+                          alt="Preview"
+                          className="w-20 h-20 rounded-full object-cover border-4 border-green-500 shadow-lg"
+                        />
+                      </div>
+                      <button
+                        onClick={() => setShowCropper(true)}
+                        className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
+                      >
+                        <span className="material-symbols-outlined text-sm">crop</span>
+                        Adjust Photo
+                      </button>
                     </div>
                   )}
                 </div>
@@ -611,6 +637,66 @@ export default function StickerGenerator() {
           </div>
         </div>
       </div>
+
+      {/* Photo Cropper Modal */}
+      {showCropper && supporterPhoto && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full mx-4 overflow-hidden">
+            <div className="p-6 border-b border-gray-200">
+              <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                <span className="material-symbols-outlined text-blue-600">crop</span>
+                Adjust Your Photo
+              </h2>
+              <p className="text-sm text-gray-600 mt-1">Zoom and position your photo perfectly</p>
+            </div>
+
+            <div className="relative h-96 bg-gray-100">
+              <Cropper
+                image={supporterPhoto}
+                crop={crop}
+                zoom={zoom}
+                aspect={1}
+                onCropChange={setCrop}
+                onZoomChange={setZoom}
+                onCropComplete={onCropComplete}
+              />
+            </div>
+
+            <div className="p-6 bg-gray-50">
+              <div className="mb-4">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Zoom: {zoom.toFixed(1)}x
+                </label>
+                <input
+                  type="range"
+                  min={1}
+                  max={3}
+                  step={0.1}
+                  value={zoom}
+                  onChange={(e) => setZoom(parseFloat(e.target.value))}
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                />
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setShowCropper(false)}
+                  className="flex-1 py-3 px-6 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold rounded-lg transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleCropDone}
+                  className="flex-1 py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2"
+                >
+                  <span className="material-symbols-outlined">check</span>
+                  Done
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
