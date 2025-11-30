@@ -39,49 +39,49 @@ export default function StickerGenerator() {
 
   const templates = {
     classic: {
-      bg: 'bg-gradient-to-br from-green-700 via-green-800 to-green-900',
+      bg: 'bg-gradient-to-br from-[#052e16] via-[#022c22] to-black',
       accent: 'bg-gradient-to-r from-yellow-400 to-yellow-500',
       text: 'text-white',
       name: 'Classic Green',
       icon: '🌿',
     },
     modern: {
-      bg: 'bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700',
+      bg: 'bg-gradient-to-br from-blue-900 via-indigo-900 to-black',
       accent: 'bg-gradient-to-r from-yellow-300 to-orange-400',
       text: 'text-white',
       name: 'Modern Blue',
       icon: '🚀',
     },
     vibrant: {
-      bg: 'bg-gradient-to-br from-pink-500 via-rose-500 to-orange-500',
+      bg: 'bg-gradient-to-br from-pink-900 via-rose-900 to-black',
       accent: 'bg-gradient-to-r from-white to-yellow-100',
       text: 'text-white',
-      name: 'Vibrant Energy',
+      name: 'Vibrant Pink',
       icon: '⚡',
     },
     elegant: {
-      bg: 'bg-gradient-to-br from-gray-800 via-slate-800 to-gray-900',
+      bg: 'bg-gradient-to-br from-gray-900 via-slate-900 to-black',
       accent: 'bg-gradient-to-r from-gold-400 to-yellow-500',
       text: 'text-white',
       name: 'Royal Elegant',
       icon: '👑',
     },
     bold: {
-      bg: 'bg-gradient-to-br from-red-600 via-rose-700 to-red-800',
+      bg: 'bg-gradient-to-br from-red-900 via-rose-900 to-black',
       accent: 'bg-gradient-to-r from-yellow-300 to-yellow-400',
       text: 'text-white',
       name: 'Bold Red',
       icon: '🔥',
     },
     neon: {
-      bg: 'bg-gradient-to-br from-cyan-500 via-teal-500 to-emerald-600',
+      bg: 'bg-gradient-to-br from-teal-900 via-emerald-900 to-black',
       accent: 'bg-gradient-to-r from-lime-300 to-green-400',
       text: 'text-white',
-      name: 'Neon Glow',
+      name: 'Neon Green',
       icon: '💚',
     },
     royal: {
-      bg: 'bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900',
+      bg: 'bg-gradient-to-br from-purple-900 via-violet-900 to-black',
       accent: 'bg-gradient-to-r from-gold-300 to-yellow-400',
       text: 'text-white',
       name: 'Royal Purple',
@@ -90,12 +90,12 @@ export default function StickerGenerator() {
   }
 
   const sizes = {
-    small: {width: '16rem', height: '16rem', scale: 1, name: 'Small (Profile)', icon: '👤'},
-    medium: {width: '20rem', height: '20rem', scale: 1.25, name: 'Medium (Post)', icon: '📱'},
-    large: {width: '24rem', height: '24rem', scale: 1.5, name: 'Large (HD)', icon: '🖼️'},
-    story: {width: '18rem', height: '32rem', scale: 1.2, name: 'Story (9:16)', icon: '📲'},
-    banner: {width: '32rem', height: '18rem', scale: 1.3, name: 'Banner (16:9)', icon: '🎯'},
-    poster: {width: '28rem', height: '40rem', scale: 1.6, name: 'Poster (A4)', icon: '📄'},
+    small: {width: '20rem', height: '20rem', scale: 1, name: 'Small (Profile)', icon: '👤'},
+    medium: {width: '28rem', height: '28rem', scale: 1.25, name: 'Medium (Post)', icon: '📱'},
+    large: {width: '36rem', height: '36rem', scale: 1.5, name: 'Large (HD)', icon: '🖼️'},
+    story: {width: '24rem', height: '42rem', scale: 1.2, name: 'Story (9:16)', icon: '📲'},
+    banner: {width: '42rem', height: '24rem', scale: 1.3, name: 'Banner (16:9)', icon: '🎯'},
+    poster: {width: '36rem', height: '48rem', scale: 1.6, name: 'Poster (A4)', icon: '📄'},
   }
 
   const messages = {
@@ -380,19 +380,19 @@ export default function StickerGenerator() {
                 <span className="material-symbols-outlined text-green-600">palette</span>
                 Choose Template
               </h2>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-3 gap-3">
                 {(Object.keys(templates) as Template[]).map((t) => (
                   <button
                     key={t}
                     onClick={() => setTemplate(t)}
-                    className={`p-4 rounded-xl border-2 transition-all duration-200 ${
+                    className={`p-3 rounded-xl border-2 transition-all duration-200 flex flex-col items-center gap-2 ${
                       template === t
-                        ? 'border-green-500 bg-green-50 shadow-lg scale-105'
-                        : 'border-gray-200 hover:border-green-300 hover:shadow-md'
+                        ? 'border-green-500 bg-green-50 shadow-lg scale-105 ring-1 ring-green-500'
+                        : 'border-gray-200 hover:border-green-300 hover:shadow-md hover:bg-gray-50'
                     }`}
                   >
-                    <div className={`h-16 ${templates[t].bg} rounded-lg mb-2 shadow-inner`}></div>
-                    <p className="text-sm font-semibold text-gray-700 capitalize">{t}</p>
+                    <div className={`w-full h-12 ${templates[t].bg} rounded-lg shadow-inner`}></div>
+                    <p className="text-xs font-bold text-gray-700 capitalize">{t}</p>
                   </button>
                 ))}
               </div>
@@ -480,84 +480,137 @@ export default function StickerGenerator() {
               <div className="flex justify-center items-center min-h-[600px] bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-8">
                 <div
                   ref={stickerRef}
-                  className={`${currentTemplate.bg} rounded-3xl shadow-2xl flex flex-col items-center justify-center p-6 relative overflow-hidden ${
+                  className={`relative overflow-hidden flex flex-col ${currentTemplate.bg} ${
                     showEffects ? 'transform hover:scale-105 transition-transform duration-300' : ''
                   }`}
                   style={{
                     width: currentSize.width,
-                    height: currentSize.height,
+                    height: currentSize.height, // Ensure 1:1 aspect ratio
                     ...(showEffects && {
                       filter: 'drop-shadow(0 25px 25px rgba(0,0,0,0.3))',
                     }),
                   }}
                 >
-                  {/* Animated Background Effects */}
-                  <div className="absolute inset-0 opacity-20">
-                    <div className="absolute top-8 left-8 w-24 h-24 bg-white rounded-full animate-pulse"></div>
-                    <div className="absolute bottom-8 right-8 w-24 h-24 bg-white rounded-full animate-pulse animation-delay-1000"></div>
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-white rounded-full animate-ping"></div>
+                  {/* BACKGROUND PARTICLES (CSS Radial Gradients) */}
+                  <div className="absolute inset-0 opacity-20" style={{
+                    backgroundImage: 'radial-gradient(#fbbf24 1px, transparent 1px), radial-gradient(#fbbf24 1px, transparent 1px)',
+                    backgroundSize: '40px 40px',
+                    backgroundPosition: '0 0, 20px 20px'
+                  }}></div>
+
+                  {/* TOP CENTER LOGO */}
+                  <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30">
+                    <div className="w-16 h-16 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-yellow-500/30 shadow-lg">
+                       <span className="material-symbols-outlined text-white text-3xl drop-shadow-md">shield</span>
+                    </div>
                   </div>
 
-                  {/* Logo Badge */}
-                  <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-4 z-10 shadow-xl animate-bounce">
-                    <svg
-                      className="w-10 h-10 text-green-800"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"></path>
-                    </svg>
-                  </div>
+                  {/* MAIN CONTENT AREA */}
+                  <div className="flex-1 flex relative z-10">
+                    
+                    {/* LEFT SIDE: CANDIDATE HERO (60%) */}
+                    <div className="w-[60%] h-full relative">
+                      {/* Candidate Photo - Full Body/Face Focus */}
+                      <div className="absolute inset-0 z-0">
+                         <img
+                          src="/ghaliphoto.jpg"
+                          alt="Hon. Dr. Ghali"
+                          className="w-full h-full object-cover"
+                          style={{ 
+                            objectPosition: 'center top', // Focus on head/shoulders
+                            maskImage: 'linear-gradient(to right, black 70%, transparent 100%)',
+                            WebkitMaskImage: 'linear-gradient(to right, black 70%, transparent 100%)'
+                          }}
+                        />
+                        {/* Gold Glow Behind/Around */}
+                        <div className="absolute inset-0 shadow-[inset_0_0_50px_rgba(251,191,36,0.2)] pointer-events-none"></div>
+                      </div>
 
-                  {/* Photo Container */}
-                  <div className="relative w-32 h-32 mb-4 z-10">
-                    <div className="absolute inset-0 rounded-full overflow-hidden border-4 border-white shadow-2xl">
-                      <img
-                        src="/ghaliphoto.jpg"
-                        alt="Hon. Dr. Ghali"
-                        className="w-full h-full object-cover"
-                      />
+                      {/* Candidate Text Overlay - Moved to Bottom to avoid face overlap */}
+                      <div className="absolute bottom-0 left-0 right-0 p-6 z-20 bg-gradient-to-t from-black/90 via-black/50 to-transparent pt-20">
+                        <h1 className="text-white font-black text-2xl leading-tight drop-shadow-xl uppercase font-sans tracking-tight">
+                          Hon. Dr.<br/>
+                          <span className="text-3xl text-yellow-400">Ghali Mustapha</span><br/>
+                          Tijjani Phanda
+                        </h1>
+                        <div className="h-1 w-20 bg-yellow-500 mt-2 mb-2 rounded-full"></div>
+                        <p className="text-yellow-200 font-bold text-[10px] uppercase tracking-wider drop-shadow-md">
+                          NNPP • Gaya/Ajingi/Albasu<br/>Federal Constituency
+                        </p>
+                      </div>
                     </div>
 
-                    {supporterPhoto && (
-                      <div className="absolute -bottom-2 -right-2 w-16 h-16 rounded-full overflow-hidden border-4 border-yellow-400 shadow-xl animate-pulse">
-                        <img
-                          src={supporterPhoto}
-                          alt="Supporter"
-                          className="w-full h-full object-cover"
-                        />
+                    {/* RIGHT SIDE: SUPPORTER & SLOGAN (40%) */}
+                    <div className="w-[40%] h-full relative flex flex-col items-center justify-center pt-4">
+                      
+                      {/* Supporter Photo - Circular Gold Frame */}
+                      <div className="relative mb-3">
+                        {supporterPhoto ? (
+                          <div className="relative">
+                            <div className="w-36 h-36 rounded-full border-[3px] border-yellow-400 shadow-[0_0_20px_rgba(251,191,36,0.4)] overflow-hidden bg-gray-800">
+                              <img 
+                                src={supporterPhoto} 
+                                alt="Supporter" 
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                            {/* Verified Check */}
+                            <div className="absolute bottom-1 right-1 bg-blue-500 text-white rounded-full p-1 border-2 border-white shadow-sm">
+                              <span className="material-symbols-outlined text-sm font-bold">check</span>
+                            </div>
+                          </div>
+                        ) : (
+                           <div className="w-36 h-36 rounded-full border-[3px] border-dashed border-yellow-500/50 flex flex-col items-center justify-center bg-white/5 backdrop-blur-sm cursor-pointer hover:bg-white/10 transition-colors">
+                              <span className="material-symbols-outlined text-yellow-500 text-4xl mb-1">add_a_photo</span>
+                              <span className="text-yellow-200 text-[10px] uppercase font-bold">Upload Photo</span>
+                           </div>
+                        )}
                       </div>
-                    )}
+
+                      {/* Supporter Name - Elegant Script */}
+                      <div className="text-center px-2 mb-6">
+                        <p className="text-white font-serif italic text-lg tracking-wide drop-shadow-md">
+                          {supporterName || "Your Name"}
+                        </p>
+                        <p className="text-yellow-500/80 text-[10px] uppercase tracking-widest font-bold mt-1">Proud Supporter</p>
+                      </div>
+
+                      {/* Center Slogan with Stars */}
+                      <div className="text-center px-1">
+                        <div className="flex items-center justify-center gap-2 mb-1">
+                          <span className="text-yellow-400 text-[10px]">★</span>
+                          <span className="text-yellow-400 text-[10px]">★</span>
+                        </div>
+                        {customMessage ? (
+                          <h2 className="text-white font-black text-lg uppercase leading-tight drop-shadow-lg break-words">
+                            {customMessage}
+                          </h2>
+                        ) : (
+                          <h2 className="text-white font-black text-xl uppercase leading-none drop-shadow-lg">
+                            Together<br/>
+                            <span className="text-yellow-400 text-2xl">We Rise</span><br/>
+                            2027
+                          </h2>
+                        )}
+                         <div className="flex items-center justify-center gap-2 mt-1">
+                          <span className="text-yellow-400 text-[10px]">★</span>
+                          <span className="text-yellow-400 text-[10px]">★</span>
+                        </div>
+                      </div>
+
+                    </div>
                   </div>
 
-                  {/* Text Content */}
-                  <div className="text-center z-10 space-y-2">
-                    <h3 className={`${currentTemplate.text} font-black text-xl`}>Hon. Dr. Ghali</h3>
-                    <p className="text-yellow-300 text-sm font-bold">NNPP • Gaya/Ajingi/Albasu</p>
-                    {supporterName && (
-                      <div
-                        className={`${currentTemplate.text} text-sm mt-3 bg-black/20 backdrop-blur-sm px-4 py-2 rounded-full`}
-                      >
-                        <p className="font-semibold">👥 {supporterName}</p>
-                      </div>
-                    )}
-                    {customMessage && (
-                      <div
-                        className={`${currentTemplate.text} text-sm italic mt-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full`}
-                      >
-                        <p>"✨ {customMessage} ✨"</p>
-                      </div>
-                    )}
+                  {/* BOTTOM BANNER - Solid Gradient */}
+                  <div className="h-14 bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-500 flex items-center justify-center shadow-[0_-5px_20px_rgba(0,0,0,0.3)] z-20 relative border-t-2 border-yellow-200">
+                    <div className="flex items-center gap-2 px-4">
+                      <span className="text-black font-black text-xl tracking-widest uppercase text-center whitespace-nowrap">
+                        2027 • Together We Rise
+                      </span>
+                      <span className="text-2xl filter drop-shadow-sm">🚀</span>
+                    </div>
                   </div>
 
-                  {/* Bottom Banner */}
-                  <div
-                    className={`absolute bottom-0 left-0 right-0 ${currentTemplate.accent} py-3 shadow-lg`}
-                  >
-                    <p className="text-gray-900 text-sm font-black text-center tracking-wide">
-                      2027 • TOGETHER WE RISE 🚀
-                    </p>
-                  </div>
                 </div>
               </div>
 
