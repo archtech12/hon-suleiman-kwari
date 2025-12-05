@@ -57,6 +57,27 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  icons: {
+    icon: [
+      { url: '/assets/favicon.ico' },
+      { url: '/assets/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/assets/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/assets/apple-touch-icon.png' },
+    ],
+    other: [
+      {
+        rel: 'android-chrome-192x192',
+        url: '/assets/android-chrome-192x192.png',
+      },
+      {
+        rel: 'android-chrome-512x512',
+        url: '/assets/android-chrome-512x512.png',
+      },
+    ],
+  },
+  manifest: '/assets/site.webmanifest', // Point to the manifest in assets
 }
 
 export const viewport: Viewport = {
