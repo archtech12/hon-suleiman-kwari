@@ -15,7 +15,7 @@ interface TimelineProps {
   items: TimelineItem[]
 }
 
-export function GhaliTimeline({items}: TimelineProps) {
+export function KwariTimeline({items}: TimelineProps) {
   const [filter, setFilter] = useState<'all' | 'political' | 'philanthropic' | 'personal'>('all')
   
   const filteredItems = filter === 'all' 
@@ -25,9 +25,9 @@ export function GhaliTimeline({items}: TimelineProps) {
   // Function to get category color
   const getCategoryColor = (category: string) => {
     switch(category) {
-      case 'political': return 'bg-blue-100 text-blue-800 border-blue-200'
-      case 'philanthropic': return 'bg-green-100 text-green-800 border-green-200'
-      case 'personal': return 'bg-purple-100 text-purple-800 border-purple-200'
+      case 'political': return 'bg-green-100 text-green-800 border-green-200'
+      case 'philanthropic': return 'bg-yellow-100 text-yellow-800 border-yellow-200'
+      case 'personal': return 'bg-gray-100 text-gray-800 border-gray-200'
       default: return 'bg-gray-100 text-gray-800 border-gray-200'
     }
   }
@@ -68,8 +68,8 @@ export function GhaliTimeline({items}: TimelineProps) {
             onClick={() => setFilter('political')}
             className={`px-5 py-2 rounded-full font-medium transition-all duration-300 flex items-center ${
               filter === 'political' 
-                ? 'bg-blue-600 text-white shadow-lg transform scale-105' 
-                : 'bg-white text-gray-700 hover:bg-blue-100 shadow-md'
+                ? 'bg-green-600 text-white shadow-lg transform scale-105' 
+                : 'bg-white text-gray-700 hover:bg-green-100 shadow-md'
             }`}
           >
             <span className="material-symbols-outlined text-base mr-2">gavel</span>
@@ -79,8 +79,8 @@ export function GhaliTimeline({items}: TimelineProps) {
             onClick={() => setFilter('philanthropic')}
             className={`px-5 py-2 rounded-full font-medium transition-all duration-300 flex items-center ${
               filter === 'philanthropic' 
-                ? 'bg-green-600 text-white shadow-lg transform scale-105' 
-                : 'bg-white text-gray-700 hover:bg-green-100 shadow-md'
+                ? 'bg-yellow-500 text-white shadow-lg transform scale-105' 
+                : 'bg-white text-gray-700 hover:bg-yellow-100 shadow-md'
             }`}
           >
             <span className="material-symbols-outlined text-base mr-2">volunteer_activism</span>
@@ -90,8 +90,8 @@ export function GhaliTimeline({items}: TimelineProps) {
             onClick={() => setFilter('personal')}
             className={`px-5 py-2 rounded-full font-medium transition-all duration-300 flex items-center ${
               filter === 'personal' 
-                ? 'bg-purple-600 text-white shadow-lg transform scale-105' 
-                : 'bg-white text-gray-700 hover:bg-purple-100 shadow-md'
+                ? 'bg-gray-600 text-white shadow-lg transform scale-105' 
+                : 'bg-white text-gray-700 hover:bg-gray-100 shadow-md'
             }`}
           >
             <span className="material-symbols-outlined text-base mr-2">person</span>
