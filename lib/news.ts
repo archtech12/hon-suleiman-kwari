@@ -42,5 +42,32 @@ export const news = [
         category: 'Social Welfare',
         publishDate: '2022-05-12T08:00:00Z',
         excerpt: 'Free medical services and surgeries provided to elderly residents in rural communities.',
+    },
+    {
+        _id: '6',
+        title: 'Palliative Distribution to Vulnerable Households',
+        content: '<p>To cushion the effect of economic hardship, Hon. Suleiman Kwari distributed truckloads of foodstuff including rice, maize, and millet to thousands of vulnerable households, widows, and orphans across the constituency. This gesture is part of his continuous effort to support the needy.</p>',
+        category: 'Social Welfare',
+        imageUrl: '/foodstup.jpg',
+        publishDate: '2023-04-15T10:00:00Z',
+        excerpt: 'Distribution of food items to support widows, orphans, and vulnerable families.',
+    },
+    {
+        _id: '7',
+        title: 'Support for Religious Institutions',
+        content: '<p>Hon. Suleiman Kwari has extended support to various religious institutions, including the renovation of mosques and support for Islamiyya schools. This initiative aims to foster spiritual growth and community cohesion within the senatorial district.</p>',
+        category: 'Community Engagement',
+        imageUrl: '/addini.jpg',
+        publishDate: '2023-03-20T14:30:00Z',
+        excerpt: 'Supporting spiritual growth through the renovation of mosques and aid to religious schools.',
+    },
+    {
+        _id: '8',
+        title: 'Youth Empowerment Scheme',
+        content: '<p>As part of his youth empowerment agenda, Hon. Kwari distributed motorcycles to unemployed youths to use for commercial transport (Okada) and logistics businesses. This initiative is designed to foster self-reliance and reduce youth unemployment in the region.</p>',
+        category: 'Empowerment',
+        imageUrl: '/motorcyclesempowerments.jpg',
+        publishDate: '2023-02-10T11:00:00Z',
+        excerpt: 'Empowering youth with motorcycles to start logistics and transport businesses.',
     }
 ];
