@@ -13,7 +13,7 @@ export const news = [
         title: 'Empowering Kaduna North: Scholarship Distribution',
         content: '<p>In a bid to support education and human capital development, Hon. Suleiman Kwari distributed scholarships to over 500 indigent students from Kaduna North Senatorial District. The scholarships cover tuition fees for students in tertiary institutions. Speaking at the event, Hon. Kwari reiterated his commitment to ensuring that financial constraints do not hinder any child from accessing quality education.</p>',
         category: 'Education',
-        imageUrl: '/schorlaship.jpg',
+        imageUrl: '/480465286_605794928897267_5859580872040922079_n.jpg',
         publishDate: '2022-11-20T09:30:00Z',
         excerpt: 'Over 500 students received scholarships to pursue higher education in various fields.',
     },
@@ -27,7 +27,7 @@ export const news = [
         excerpt: 'Providing clean drinking water to remote communities through solar-powered boreholes.',
     },
     {
-        _id: '4',
+        _id: '4', // Correct ID
         title: 'Town Hall Meeting: Engaging with Constituents',
         content: '<p>Hon. Suleiman Kwari held a town hall meeting with stakeholders from the 8 Local Government Areas of Kaduna North Senatorial District. The interactive session provided an opportunity for constituents to voice their concerns and for the Senator to give an account of his stewardship. key issues discussed included security, youth unemployment, and agricultural support.</p>',
         category: 'Community Engagement',
@@ -40,7 +40,6 @@ export const news = [
         title: 'Medical Outreach for the Elderly',
         content: '<p>A 3-day free medical outreach sponsored by Hon. Suleiman Kwari attended to over 2,000 elderly patients in Lere and Soba LGAs. The outreach provided free eye screenings, cataract surgeries, and treatment for ailments such as high blood pressure and diabetes.</p>',
         category: 'Social Welfare',
-        imageUrl: '/schorlashiphealth.jpg',
         publishDate: '2022-05-12T08:00:00Z',
         excerpt: 'Free medical services and surgeries provided to elderly residents in rural communities.',
     }
