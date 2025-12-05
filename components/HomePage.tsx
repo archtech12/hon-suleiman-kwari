@@ -30,10 +30,10 @@ export function HomePage({data}: HomePageProps) {
           <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
             <div className="lg:w-1/2 mb-6 lg:mb-0 text-center lg:text-left">
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 leading-tight">
-                Hon. Suleiman Abdu Kwari
+                Senator Suleiman Abdu Kwari
               </h1>
               <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold mb-4 sm:mb-6 text-green-100">
-                Former Senator, Kaduna North | Finance Expert | Champion of Development
+                Senator, Kaduna North (2019-2023) | Finance Expert
               </h2>
               <p className="text-base sm:text-lg mb-6 sm:mb-8 max-w-2xl mx-auto lg:mx-0 text-green-50 leading-relaxed">
                 Celebrating a legacy of integrity and service. From Commissioner of Finance to Senator (2019–2023), dedicated to transforming Kaduna North through education, infrastructure, and fiscal responsibility.
